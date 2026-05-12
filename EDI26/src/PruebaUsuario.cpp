@@ -1,0 +1,75 @@
+/*
+ * PruebaUsuario.cpp
+ *
+ *  Created on: 23 feb 2026
+ *      Author: elena
+ */
+
+#include "PruebaUsuario.h"
+#include "Usuario.h"
+
+void pruebasConstructores (){
+	Usuario u1, u2, u3;
+	u1=Usuario ();
+	u2= Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
+	u3= Usuario (u2);
+
+	if (u1.getIdUsuario() != " "){
+		cout << "Error en la prueba del constructor por defecto"<< endl;
+	}
+
+	if (u2.getPassword()!= "echaconv"){
+		cout << "Error en la prueba del constructor parametrizado"<< endl;
+	}
+
+	if (u3.getIdUsuario () != "2345"){
+		cout << "Error en la prueba del constructor por copia" << endl;
+	}
+
+
+}
+
+void pruebasSetYGet (){
+	Usuario u1;
+	u1=Usuario ();
+
+	u1.setIdUsuario("2345");
+	if (u1.getIdUsuario() != "2345"){
+		cout << "Error en la prueba de get/set de idUsuario"<<endl;
+	}
+
+	u1.setApellidosNombre("Elena Chacon Viniegra");
+	if (u1.getApellidosNombre() != "Elena Chacon Viniegra"){
+		cout << "Error en la prueba de get/set de apellidosNombre"<< endl;
+	}
+
+	u1.setEmail ("echaconv@alumnos.unex.es");
+	if (u1.getEmail() != "echaconv@alumnos.unex.es"){
+		cout << "Error en la prueba de set/get de email"<< endl;
+	}
+
+	u1.setPassword("echaconv");
+	if (u1.getPassword()!="echaconv"){
+		cout << "Error en la prueba de set/get de password"<< endl;
+	}
+
+}
+
+void restoMetodos () {
+	Usuario u1;
+	u1=Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
+	u1.mostrar ();
+	u1.pasarACadena();
+}
+
+void todasPruebasUsuario (){
+	cout << "\033[1;32mInicio pruebas Usuario\033[0m" << endl;
+	pruebasConstructores();
+	pruebasSetYGet();
+	restoMetodos();
+	cout << "\033[1;31mFin pruebas Usuario\033[0m"<< endl;
+}
+
+
+
+
