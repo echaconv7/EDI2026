@@ -15,18 +15,19 @@ GestorUsuarios::GestorUsuarios(const GestorUsuarios &otroGestorUsuarios) {
 	Usuario *u = nullptr;
 	lUsuarios = new ListaDPI <Usuario*> ();
 	lUsuarios->moverPrimero();
+	Usuario *uCopia=nullptr;
 	otroGestorUsuarios.lUsuarios->moverPrimero();
 	while (!otroGestorUsuarios.lUsuarios->alFinal()) {
 		u = otroGestorUsuarios.lUsuarios->consultar();
-		Usuario *uNuevo = new Usuario (*u);
-		lUsuarios->insertar(uNuevo);
+		uCopia=new Usuario (*u);
+		lUsuarios->insertar(uCopia);
 		otroGestorUsuarios.lUsuarios->avanzar();
 	}
 }
 
 void GestorUsuarios::insertar(string idUsuario, string apellidosNombre,
 		string email, string password, int dia, int mes, int year) {
-	Usuario *u;
+	Usuario *u=nullptr;
 	bool encontrado = false;
 	bool igual = false;
 	lUsuarios->moverPrimero();

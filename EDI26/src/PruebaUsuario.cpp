@@ -9,57 +9,63 @@
 #include "Usuario.h"
 
 void pruebasConstructores (){
-	Usuario u1, u2, u3;
-	u1=Usuario ();
-	u2= Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
-	u3= Usuario (u2);
+	Usuario *u1, *u2, *u3;
+	u1=new Usuario ();
+	u2= new Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
+	u3= new Usuario (*u2);
 
-	if (u1.getIdUsuario() != " "){
+	if (u1->getIdUsuario() != " "){
 		cout << "Error en la prueba del constructor por defecto"<< endl;
 	}
 
-	if (u2.getPassword()!= "echaconv"){
+	if (u2->getPassword()!= "echaconv"){
 		cout << "Error en la prueba del constructor parametrizado"<< endl;
 	}
 
-	if (u3.getIdUsuario () != "2345"){
+	if (u3->getIdUsuario () != "2345"){
 		cout << "Error en la prueba del constructor por copia" << endl;
 	}
 
+	delete u1;
+	delete u2;
+	delete u3;
 
 }
 
 void pruebasSetYGet (){
-	Usuario u1;
-	u1=Usuario ();
+	Usuario *u1;
+	u1= new Usuario ();
 
-	u1.setIdUsuario("2345");
-	if (u1.getIdUsuario() != "2345"){
+	u1->setIdUsuario("2345");
+	if (u1->getIdUsuario() != "2345"){
 		cout << "Error en la prueba de get/set de idUsuario"<<endl;
 	}
 
-	u1.setApellidosNombre("Elena Chacon Viniegra");
-	if (u1.getApellidosNombre() != "Elena Chacon Viniegra"){
+	u1->setApellidosNombre("Elena Chacon Viniegra");
+	if (u1->getApellidosNombre() != "Elena Chacon Viniegra"){
 		cout << "Error en la prueba de get/set de apellidosNombre"<< endl;
 	}
 
-	u1.setEmail ("echaconv@alumnos.unex.es");
-	if (u1.getEmail() != "echaconv@alumnos.unex.es"){
+	u1->setEmail ("echaconv@alumnos.unex.es");
+	if (u1->getEmail() != "echaconv@alumnos.unex.es"){
 		cout << "Error en la prueba de set/get de email"<< endl;
 	}
 
-	u1.setPassword("echaconv");
-	if (u1.getPassword()!="echaconv"){
+	u1->setPassword("echaconv");
+	if (u1->getPassword()!="echaconv"){
 		cout << "Error en la prueba de set/get de password"<< endl;
 	}
+
+	delete u1;
 
 }
 
 void restoMetodos () {
-	Usuario u1;
-	u1=Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
-	u1.mostrar ();
-	u1.pasarACadena();
+	Usuario *u1;
+	u1= new Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
+	u1->mostrar ();
+	u1->pasarACadena();
+	delete u1;
 }
 
 void todasPruebasUsuario (){

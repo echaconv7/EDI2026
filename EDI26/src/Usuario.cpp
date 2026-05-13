@@ -28,24 +28,25 @@ Usuario::Usuario (string idUsuario, string apellidosNombre, string email, string
 }
 
 Usuario::Usuario (const Usuario &otroUsuario){
-	idUsuario=otroUsuario.idUsuario;
-	apellidosNombre = otroUsuario.apellidosNombre;
-	email=otroUsuario.email;
-	password=otroUsuario.password;
-	fechaNacimiento=new Fecha(*otroUsuario.fechaNacimiento);
-
-	lPlaylists = new ListaDPI<Playlist*>();
+	this->idUsuario=otroUsuario.idUsuario;
+	this->apellidosNombre = otroUsuario.apellidosNombre;
+	this->email=otroUsuario.email;
+	this->password=otroUsuario.password;
+	this->fechaNacimiento=new Fecha(*otroUsuario.fechaNacimiento);
+	Playlist *p = nullptr;
+	Artista *a = nullptr;
+	lPlaylists= new ListaDPI<Playlist*>();
+	lArtistasFavoritos = new ListaDPI<Artista*>();
 	otroUsuario.lPlaylists->moverPrimero();
-	while (!otroUsuario.lPlaylists->alFinal()) {
-		Playlist *p = otroUsuario.lPlaylists->consultar();
-		lPlaylists->insertar(new Playlist(*p));
-		otroUsuario.lPlaylists->avanzar();
+	otroUsuario.lArtistasFavoritos->moverPrimero();
+	while (!otroUsuario.lPlaylists->alFinal()){
+			p = otroUsuario.lPlaylists->consultar();
+			lPlaylists->insertar(new Playlist(*p));
+			otroUsuario.lPlaylists->avanzar();
 	}
 
-	lArtistasFavoritos = new ListaDPI<Artista*>();
-	otroUsuario.lArtistasFavoritos->moverPrimero();
 	while (!otroUsuario.lArtistasFavoritos->alFinal()) {
-		Artista *a = otroUsuario.lArtistasFavoritos->consultar();
+		a = otroUsuario.lArtistasFavoritos->consultar();
 		lArtistasFavoritos->insertar(a);
 		otroUsuario.lArtistasFavoritos->avanzar();
 	}
@@ -216,12 +217,20 @@ Usuario::~Usuario(){
 	delete fechaNacimiento;
 
 	lPlaylists->moverPrimero();
-	while (!lPlaylists->alFinal()) {
-		delete lPlaylists->consultar();
+	Playlist *p= nullptr;
+	while (!lPlaylists->estaVacia()) {
+		p=lPlaylists->consultar();
+		delete p;
 		lPlaylists->eliminar();
 	}
 	delete lPlaylists;
-
+	Artista *a = nullptr;
+	lArtistasFavoritos->moverPrimero();
+	while (!lArtistasFavoritos->estaVacia()){
+		a=lArtistasFavoritos ->consultar();
+		delete a;
+		lArtistasFavoritos->eliminar();
+	}
 	delete lArtistasFavoritos;
 
 }

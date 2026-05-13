@@ -89,10 +89,11 @@ void pruebaRestoPlaylist(){
 
 }
 void todasPruebaPlaylist (){
+	cout<< "\033[1;32mInicio pruebas Playlist\033[0m"<< endl;
 	pruebaPlaylistConstructores();
 	pruebaGetYSetPlaylist ();
 	pruebaRestoPlaylist();
-
+	cout << "\033[1;31mFin pruebas Playlist\033[0m"<< endl;
 }
 
 

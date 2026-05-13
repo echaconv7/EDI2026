@@ -30,8 +30,7 @@
 			otroArtista.lCanciones->moverPrimero();
 			while (!otroArtista.lCanciones->alFinal()) {
 				c = otroArtista.lCanciones->consultar();
-				Cancion *cNueva = new Cancion (*c);
-				lCanciones->insertar(cNueva);
+				lCanciones->insertar(new Cancion (*c));
 				otroArtista.lCanciones->avanzar();
 			}
 	}
