@@ -25,7 +25,7 @@ GestorArtistas::GestorArtistas(const GestorArtistas &otroGestorArtistas) {
 }
 
 void GestorArtistas::insertar(string nombre, string pais, int numSeguidores) {
-	Artista *a;
+	Artista *a=nullptr;
 	bool encontrado = false;
 	bool igual = false;
 	lArtistas->moverPrimero();

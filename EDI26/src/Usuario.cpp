@@ -101,6 +101,7 @@ string Usuario::pasarACadena () const {
 }
 
 void Usuario::crearPlayList(string nombre) {
+	Playlist *pNueva = nullptr;
 	bool enc = false;
 	lPlaylists->moverPrimero();
 
@@ -112,7 +113,7 @@ void Usuario::crearPlayList(string nombre) {
 	}
 
 	if (!enc) {
-		Playlist *pNueva = new Playlist(nombre);
+		pNueva = new Playlist(nombre);
 		lPlaylists->insertar(pNueva);
 	}
 }

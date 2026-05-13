@@ -62,10 +62,23 @@ void pruebasSetYGet (){
 
 void restoMetodos () {
 	Usuario *u1;
+	Cancion *c1, *c2, *c3;
+	c1=new Cancion ("Beutiful things", "Pop", 165);
+	c2=new Cancion ("Bohemiam Rhapsody", "Rock", 132);
+	c3=new Cancion ("Eternal", "Pop", 187);
 	u1= new Usuario ("2345", "Elena Chacon Viniegra", "echaconv@alumnos.unex.es", "echaconv", 20, 6, 1996);
 	u1->mostrar ();
 	u1->pasarACadena();
 	delete u1;
+
+	u1->crearPlayList("musiquita");
+	u1->anadirCancionAPlayList("musiquita", c1);
+	u1->anadirCancionAPlayList("musiquita", c2);
+	u1->anadirCancionAPlayList("musiquita", c3);
+
+	u1->reproducirPlayList();
+
+
 }
 
 void todasPruebasUsuario (){

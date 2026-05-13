@@ -16,6 +16,7 @@ using namespace std;
 #include "PruebaArtista.h"
 #include "PruebaCancion.h"
 #include "PruebaPlaylist.h"
+#include "PruebaGestorArtistas.h"
 
 const int TAM = 100;
 typedef Usuario *TVector[TAM];
@@ -80,6 +81,7 @@ int main() {
 	todasPruebasArtista();
 	todasPruebasCancion();
 	todasPruebaPlaylist ();
+	todasPruebaGestorArtistas();
 	/*TVector v;
 	leerFichero2(v);
 	mostrarVector(v);
