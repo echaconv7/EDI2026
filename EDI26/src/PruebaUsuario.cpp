@@ -7,6 +7,7 @@
 
 #include "PruebaUsuario.h"
 #include "Usuario.h"
+#include "Playlist.h"
 
 void pruebasConstructores (){
 	Usuario *u1, *u2, *u3;

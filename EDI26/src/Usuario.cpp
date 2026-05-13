@@ -104,10 +104,13 @@ void Usuario::crearPlayList(string nombre) {
 	Playlist *pNueva = nullptr;
 	bool enc = false;
 	lPlaylists->moverPrimero();
+	Playlist *playlistActual=new Playlist();
 
 	while (!lPlaylists->alFinal() && !enc) {
-		if (lPlaylists->consultar()->getNombre() == nombre) {
+		playlistActual= lPlaylists->consultar();
+		if (playlistActual->getNombre() == nombre) {
 			enc = true;
+			break;
 		}
 		lPlaylists->avanzar();
 	}
