@@ -9,6 +9,9 @@
 #define ARTISTA_H_
 #include <iostream>
 
+#include "Cancion.h"
+#include "ListaDPI.h"
+
 using namespace std;
 
 class Artista {
@@ -16,10 +19,11 @@ private:
 	string nombre;
 	string pais;
 	int numSeg;
+	ListaDPI <Cancion*> *lCanciones;
 public:
 	Artista();
 	Artista(string nombre, string pais, int numSeg);
-	Artista (const Artista &otroArtista);
+	Artista (Artista &otroArtista);
 
 	void setNombre (string nombre);
 	void setPais (string pais);
@@ -33,6 +37,12 @@ public:
 	bool operator < (const Artista &otroArtista) const;
 
 	void mostrar();
+
+	//metodos listaCanciones
+	int numElementos () const;
+	void mostrarCanciones () const;
+	bool buscarCancion (string titulo, Cancion *&c) const;
+	void insertar (string titulo, string genero, int duracion);
 
 	~Artista();
 

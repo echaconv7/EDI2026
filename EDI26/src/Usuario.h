@@ -9,7 +9,12 @@
 #define USUARIO_H_
 
 #include <iostream>
+
 #include "Fecha.h"
+#include "PlayList.h"
+#include "Artista.h"
+#include "ListaDPI.h"
+
 using namespace std;
 
 class Usuario {
@@ -20,6 +25,9 @@ private:
 	string email;
 	string password;
 	Fecha *fechaNacimiento;
+
+	ListaDPI<Playlist*> *lPlaylists;
+	ListaDPI<Artista*> *lArtistasFavoritos;
 
 public:
 	Usuario ();
@@ -38,6 +46,18 @@ public:
 
 	void mostrar () const;
 	string pasarACadena () const;
+
+	void crearPlayList (string nombre);
+	void anadirCancionAPlayList (string nombrePlaylist, Cancion *c);
+	void reproducirPlayList();
+	Playlist* compartirPlayList(string nombrePlaylist);
+	void anadirPlayListCompartida(Playlist *p);
+	void eliminarPlayList(string nombre);
+
+	void insertarArtistaFavorito(Artista *a);
+	void eliminarArtistaFavorito(string nombreArtista);
+	void mostrarFavoritos();
+
 
 	~Usuario ();
 

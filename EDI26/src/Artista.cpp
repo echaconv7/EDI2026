@@ -6,22 +6,34 @@
  */
 #include "Artista.h"
 
-	Artista::Artista(){
-		nombre=" ";
-		pais=" ";
-		numSeg=0;
+	Artista::Artista() {
+	nombre = " ";
+	pais = " ";
+	numSeg = 0;
+	lCanciones = new ListaDPI <Cancion*> ();
 	}
 
-	Artista::Artista(string nombre, string pais, int numSeg){
-		this->nombre=nombre;
-		this->pais=pais;
-		this->numSeg=numSeg;
+	Artista::Artista(string nombre, string pais, int numSeguidores) {
+		this->nombre = nombre;
+		this->pais = pais;
+		this->numSeg = numSeguidores;
+		lCanciones = new ListaDPI <Cancion*> ();
 	}
 
-	Artista::Artista (const Artista &otroArtista){
-		nombre=otroArtista.nombre;
-		pais=otroArtista.pais;
-		numSeg=otroArtista.numSeg;
+	Artista::Artista(Artista &otroArtista) {
+		this->nombre = otroArtista.nombre;
+		this->pais = otroArtista.pais;
+		this->numSeg = otroArtista.numSeg;
+		Cancion *c = nullptr;
+			lCanciones = new ListaDPI <Cancion*> ();
+			lCanciones->moverPrimero();
+			otroArtista.lCanciones->moverPrimero();
+			while (!otroArtista.lCanciones->alFinal()) {
+				c = otroArtista.lCanciones->consultar();
+				Cancion *cNueva = new Cancion (*c);
+				lCanciones->insertar(cNueva);
+				otroArtista.lCanciones->avanzar();
+			}
 	}
 
 	void Artista::setNombre (string nombre){
@@ -60,7 +72,68 @@
 		cout << nombre << " " << pais <<" "<< numSeg <<" " << endl;
 	}
 
-	Artista::~Artista(){
+	int Artista::numElementos() const {
+		int cont = 0;
+		lCanciones->moverPrimero();
+		while (!lCanciones->alFinal()) {
+			cont++;
+			lCanciones->avanzar();
+		}
+		return cont;
+	}
 
+	void Artista::mostrarCanciones() const {
+		lCanciones->moverPrimero();
+		while (!lCanciones->alFinal()) {
+			lCanciones->consultar()->mostrar();
+		}
+	}
+
+	bool Artista::buscarCancion(string titulo, Cancion *&c) const {
+		bool enc = false;
+		lCanciones->moverPrimero();
+		while (!lCanciones->alFinal() && !enc) {
+			if (lCanciones->consultar()->getTitulo() == titulo) {
+				c = lCanciones->consultar();
+				cout << "El siguiente usuario ha sido encontrado: " << endl;
+				c->mostrar();
+				enc = true;
+			}
+			else {
+				lCanciones->avanzar();
+			}
+		}
+		return enc;
+	}
+
+	void Artista::insertar(string titulo, string genero, int duracion) {
+		Cancion *c;
+		bool encontrado = false;
+		bool igual = false;
+		lCanciones->moverPrimero();
+		while (!lCanciones->alFinal() && !encontrado && !igual) {
+			lCanciones->consultar(c);
+			if (c->getTitulo() == titulo) {
+				igual = true;
+			} else if (c->getTitulo() > titulo) {
+				encontrado = true;
+			} else {
+				lCanciones->avanzar();
+			}
+		}
+		if (!igual) {
+			c = new Cancion (titulo, genero, duracion);
+			lCanciones->insertar(c);
+		}
+
+	}
+
+	Artista::~Artista() {
+		lCanciones->moverPrimero();
+		while (!lCanciones->alFinal()) {
+			delete lCanciones->consultar();
+			lCanciones->eliminar();
+		}
+		delete lCanciones;
 	}
 
