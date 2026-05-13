@@ -19,7 +19,7 @@ Fecha::Fecha(int dia, int mes, int ano){
 	this->ano = ano;
 }
 
-Fecha::Fecha (Fecha &otraFecha){
+Fecha::Fecha (const Fecha &otraFecha){
 	dia=otraFecha.dia;
 	mes=otraFecha.mes;
 	ano=otraFecha.ano;
@@ -49,7 +49,7 @@ int Fecha::getAno () const {
 	return ano;
 }
 
-void Fecha::mostrarFecha (){
+void Fecha::mostrarFecha () const {
 	cout << dia << "/" << mes << "/" << ano << endl;
 }
 

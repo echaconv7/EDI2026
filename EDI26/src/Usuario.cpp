@@ -28,24 +28,25 @@ Usuario::Usuario (string idUsuario, string apellidosNombre, string email, string
 }
 
 Usuario::Usuario (const Usuario &otroUsuario){
-	idUsuario=otroUsuario.idUsuario;
-	apellidosNombre = otroUsuario.apellidosNombre;
-	email=otroUsuario.email;
-	password=otroUsuario.password;
-	fechaNacimiento=new Fecha(*otroUsuario.fechaNacimiento);
-
-	lPlaylists = new ListaDPI<Playlist*>();
+	this->idUsuario=otroUsuario.idUsuario;
+	this->apellidosNombre = otroUsuario.apellidosNombre;
+	this->email=otroUsuario.email;
+	this->password=otroUsuario.password;
+	this->fechaNacimiento=new Fecha(*otroUsuario.fechaNacimiento);
+	Playlist *p = nullptr;
+	Artista *a = nullptr;
+	lPlaylists= new ListaDPI<Playlist*>();
+	lArtistasFavoritos = new ListaDPI<Artista*>();
 	otroUsuario.lPlaylists->moverPrimero();
-	while (!otroUsuario.lPlaylists->alFinal()) {
-		Playlist *p = otroUsuario.lPlaylists->consultar();
-		lPlaylists->insertar(new Playlist(*p));
-		otroUsuario.lPlaylists->avanzar();
+	otroUsuario.lArtistasFavoritos->moverPrimero();
+	while (!otroUsuario.lPlaylists->alFinal()){
+			p = otroUsuario.lPlaylists->consultar();
+			lPlaylists->insertar(new Playlist(*p));
+			otroUsuario.lPlaylists->avanzar();
 	}
 
-	lArtistasFavoritos = new ListaDPI<Artista*>();
-	otroUsuario.lArtistasFavoritos->moverPrimero();
 	while (!otroUsuario.lArtistasFavoritos->alFinal()) {
-		Artista *a = otroUsuario.lArtistasFavoritos->consultar();
+		a = otroUsuario.lArtistasFavoritos->consultar();
 		lArtistasFavoritos->insertar(a);
 		otroUsuario.lArtistasFavoritos->avanzar();
 	}
@@ -91,11 +92,28 @@ void Usuario::mostrar () const {
 	cout << email << " ";
 	cout << password << " ";
 	fechaNacimiento->mostrarFecha();
+
+	cout << " PlayLists: " << endl;
+	lPlaylists->moverPrimero();
+	while (!lPlaylists->alFinal()) {
+		lPlaylists->consultar()->mostrar();
+		lPlaylists->avanzar();
+	}
+
+	cout << " Artistas favoritos: " << endl;
+	lArtistasFavoritos->moverPrimero();
+	while (!lArtistasFavoritos->alFinal()) {
+		lArtistasFavoritos->consultar()->mostrar();
+		lArtistasFavoritos->avanzar();
+	}
 }
 
 string Usuario::pasarACadena () const {
 	string cadena;
-	cadena= idUsuario + " " + apellidosNombre + " " + email + " " + password + " " ;
+	cadena= idUsuario + " " + apellidosNombre + " " + email + " " + password + " "
+			+ to_string(fechaNacimiento->getDia()) + "/"
+			+ to_string(fechaNacimiento->getMes()) + "/"
+			+ to_string(fechaNacimiento->getAno());
 	return cadena;
 }
 
@@ -106,8 +124,9 @@ void Usuario::crearPlayList(string nombre) {
 	while (!lPlaylists->alFinal() && !enc) {
 		if (lPlaylists->consultar()->getNombre() == nombre) {
 			enc = true;
+		} else {
+			lPlaylists->avanzar();
 		}
-		lPlaylists->avanzar();
 	}
 
 	if (!enc) {
@@ -124,8 +143,9 @@ void Usuario::anadirCancionAPlayList(string nombrePlaylist, Cancion *c) {
 		if (lPlaylists->consultar()->getNombre() == nombrePlaylist) {
 			lPlaylists->consultar()->agregarCancion(c);
 			enc = true;
+		} else {
+			lPlaylists->avanzar();
 		}
-		lPlaylists->avanzar();
 	}
 }
 
@@ -146,8 +166,9 @@ Playlist* Usuario::compartirPlayList(string nombrePlaylist) {
 		if (lPlaylists->consultar()->getNombre() == nombrePlaylist) {
 			copia = new Playlist(*(lPlaylists->consultar()));
 			enc = true;
+		} else {
+			lPlaylists->avanzar();
 		}
-		lPlaylists->avanzar();
 	}
 
 	return copia;
@@ -166,8 +187,9 @@ void Usuario::insertarArtistaFavorito(Artista *a) {
 	while (!lArtistasFavoritos->alFinal() && !enc) {
 		if (lArtistasFavoritos->consultar()->getNombre() == a->getNombre()) {
 			enc = true;
+		} else {
+			lArtistasFavoritos->avanzar();
 		}
-		lArtistasFavoritos->avanzar();
 	}
 
 	if (!enc) {
@@ -216,12 +238,18 @@ Usuario::~Usuario(){
 	delete fechaNacimiento;
 
 	lPlaylists->moverPrimero();
-	while (!lPlaylists->alFinal()) {
-		delete lPlaylists->consultar();
+	Playlist *p= nullptr;
+	while (!lPlaylists->estaVacia()) {
+		p=lPlaylists->consultar();
+		delete p;
 		lPlaylists->eliminar();
 	}
 	delete lPlaylists;
-
+	Artista *a = nullptr;
+	lArtistasFavoritos->moverPrimero();
+	while (!lArtistasFavoritos->estaVacia()){
+		lArtistasFavoritos->eliminar();
+	}
 	delete lArtistasFavoritos;
 
 }

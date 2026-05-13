@@ -69,7 +69,7 @@ void pruebaRestoPlaylist(){
 	if(p1->getTotalDuracion()!= 135){
 		cout<<"Error en la prueba de eliminarCancion de Playlist"<< endl;
 	}
-
+	p1->agregarCancion(c1);
 	cout << "Deberia mostrar: "<< endl;
 	cout << "Nombre de la lista: musiquita"<< endl;
 	cout << "Hay 1 cancion/es en la lista"<< endl;
@@ -83,17 +83,17 @@ void pruebaRestoPlaylist(){
 	p1->reproducirTodo();
 
 	cout << "Al reproducir la cancion 2 de la lista deberia aparecer La Perla Pop 176 y aparece: "<< endl;
-	p1->agregarCancion(c1);
 	p1->repUnNumCancion(2);
 
 	delete p1;
 
 }
 void todasPruebaPlaylist (){
+	cout<< "\033[1;32mInicio pruebas Playlist\033[0m"<< endl;
 	pruebaPlaylistConstructores();
 	pruebaGetYSetPlaylist ();
 	pruebaRestoPlaylist();
-
+	cout << "\033[1;31mFin pruebas Playlist\033[0m"<< endl;
 }
 
 

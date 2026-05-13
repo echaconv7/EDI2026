@@ -20,7 +20,7 @@
 		lCanciones = new ListaDPI <Cancion*> ();
 	}
 
-	Artista::Artista(Artista &otroArtista) {
+	Artista::Artista(const Artista &otroArtista) {
 		this->nombre = otroArtista.nombre;
 		this->pais = otroArtista.pais;
 		this->numSeg = otroArtista.numSeg;
@@ -30,8 +30,7 @@
 			otroArtista.lCanciones->moverPrimero();
 			while (!otroArtista.lCanciones->alFinal()) {
 				c = otroArtista.lCanciones->consultar();
-				Cancion *cNueva = new Cancion (*c);
-				lCanciones->insertar(cNueva);
+				lCanciones->insertar(new Cancion (*c));
 				otroArtista.lCanciones->avanzar();
 			}
 	}
@@ -68,8 +67,9 @@
 		return (this->nombre<otroArtista.nombre);
 	}
 
-	void Artista::mostrar(){
+	void Artista::mostrar() const {
 		cout << nombre << " " << pais <<" "<< numSeg <<" " << endl;
+		mostrarCanciones();
 	}
 
 	int Artista::numElementos() const {
@@ -86,6 +86,7 @@
 		lCanciones->moverPrimero();
 		while (!lCanciones->alFinal()) {
 			lCanciones->consultar()->mostrar();
+			lCanciones->avanzar();
 		}
 	}
 
@@ -95,8 +96,6 @@
 		while (!lCanciones->alFinal() && !enc) {
 			if (lCanciones->consultar()->getTitulo() == titulo) {
 				c = lCanciones->consultar();
-				cout << "El siguiente usuario ha sido encontrado: " << endl;
-				c->mostrar();
 				enc = true;
 			}
 			else {
@@ -107,7 +106,7 @@
 	}
 
 	void Artista::insertar(string titulo, string genero, int duracion) {
-		Cancion *c;
+		Cancion *c = nullptr;
 		bool encontrado = false;
 		bool igual = false;
 		lCanciones->moverPrimero();

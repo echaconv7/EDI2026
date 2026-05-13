@@ -50,7 +50,7 @@
 		return duracion;
 	}
 
-	void Cancion::mostrar(){
+	void Cancion::mostrar() const{
 		cout<< titulo << " " << genero << " " << duracion << endl;
 	}
 

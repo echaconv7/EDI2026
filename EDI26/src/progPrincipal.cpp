@@ -8,6 +8,15 @@
 
 
 #include <iostream>
+#include <string>
+
+#include "Sistema.h"
+#include "PruebaUsuario.h"
+#include "PruebaFecha.h"
+#include "PruebaArtista.h"
+#include "PruebaCancion.h"
+#include "PruebaPlaylist.h"
+
 using namespace std;
 
 
@@ -41,38 +50,79 @@ int menu(string nombreSistema) {
 
 
 int main() {
-	// TODO Crear un objeto dinámico de la clase Sistema
-	// los datos se cargan automáticamente.
-	// TODO no olvidar hacer new al puntero al Sistema
 
+	//todasPruebasUsuario();
+	//todasPruebasFecha();
+	//todasPruebasArtista();
+	//todasPruebasCancion();
+	//todasPruebaPlaylist ();
+
+	Sistema *spotify = new Sistema ("Spotify");
 
 	bool salir = false;
 	int opcion;
+
+	string aux1, aux2, aux3;
 
 	while (!salir) {
 
 		opcion = menu("Simulador Spotify");
 		switch (opcion) {
 		case 1:
-
+			spotify->mostrarUsuarios();
 			break;
 		case 2:
+			cout << "Introduce los Apellidos y el Nombre del usuario: ";
+			getline (cin, aux1);
+			spotify->buscarUsuario(aux1);
 			break;
 		case 3:
+			spotify->mostrarArtistas();
 			break;
 		case 4:
+			cout << "Introduce el nombre del artista: ";
+			getline (cin, aux1);
+			spotify->buscarArtistas(aux1);
 			break;
 		case 5:
+			cout << "Introduce los Apellidos y el Nombre del usuario: ";
+			getline (cin, aux1);
+			cout << "Introduce el nombre de la PlayList: ";
+			getline (cin, aux2);
+			spotify->reproducirPlaylist(aux1, aux2);
 			break;
 		case 6:
+			cout << "Introduce los Apellidos y el Nombre del usuario EMISOR: ";
+			getline (cin, aux1);
+			cout << "Introduce el nombre de la PlayList a compartir: ";
+			getline (cin, aux2);
+			cout << "Introduce los Apellidos y el Nombre del usuario RECEPTOR: ";
+			getline (cin, aux3);
+			spotify->compartirPlaylist(aux1, aux2, aux3);
 			break;
 		case 7:
+			cout << "Introduce los Apellidos y el Nombre del usuario: ";
+			getline (cin, aux1);
+			cout << "Introduce el nombre de la PlayList a eliminar: ";
+			getline (cin, aux2);
+			spotify->eliminarPlaylist(aux1, aux2);
 			break;
 		case 8:
+			cout << "Introduce los Apellidos y el Nombre del usuario: ";
+			getline (cin, aux1);
+			cout << "Introduce el nombre del artista a añadir en favoritos: ";
+			getline (cin, aux2);
+			spotify->anadirArtistaFavorito(aux1, aux2);
 			break;
 		case 9:
+			cout << "Introduce los Apellidos y el Nombre del usuario: ";
+			getline (cin, aux1);
+			cout << "Introduce el nombre del artista a eliminar de favoritos: ";
+			getline (cin, aux2);
+			spotify->eliminarArtistaFavorito(aux1, aux2);
 			break;
 		case 10:
+			spotify->mostrarArtistaMasSeguidores();
 			break;
 		case 0:
 			salir = true;
@@ -81,7 +131,8 @@ int main() {
 			break;
 		}
 	}
-	// TODO no olvidar el delete al puntero al sistema
+
+	delete spotify;
 	return 0;
 }
 

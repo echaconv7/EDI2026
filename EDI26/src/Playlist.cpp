@@ -91,7 +91,7 @@ void Playlist::mostrar (){
 	Cancion *c = nullptr;
 
 	cout << "Nombre de la playlist: "<< nombre << endl;
-	cout << "Hay " << numCanciones << "cancion/es en la lista" << endl;
+	cout << "Hay " << numCanciones << " cancion/es en la lista" << endl;
 	cout << "La duracion de la lista es de: "<< horas << "h, "<< minutos << "min, " << segundos << "seg"<< endl;
 	cout << "Estas son las canciones que pertenecen a la lista:" << endl;
 	while (!colaReproduccion->estaVacia()){
@@ -122,18 +122,28 @@ void Playlist::reproducirTodo(){
 }
 void Playlist::repUnNumCancion(int numEnLista){
 	Cancion *c=nullptr;
+	Cola <Cancion*>  *cAux = new Cola <Cancion*>;;
 	int i=1;
+
 	while (!colaReproduccion->estaVacia()){
 		c=colaReproduccion->getPrimero();
-		while(i<=numCanciones){
-			if(i==numEnLista){
-				c->mostrar();
-			}
-			i++;
+		cAux->encolar(c);
+		colaReproduccion->desencolar();
+	}
+
+	int total = numCanciones;
+	i = 1;
+	while (!cAux->estaVacia()){
+		c=cAux->getPrimero();
+		colaReproduccion->encolar(c);
+		cAux->desencolar();
+		if (i >= numEnLista) {
+			c->mostrar();
 		}
-			colaReproduccion->desencolar();
-			colaReproduccion ->encolar(c);
-		}
+		i++;
+	}
+
+	delete cAux;
 }
 
 Playlist::~Playlist (){
