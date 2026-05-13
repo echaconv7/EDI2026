@@ -122,18 +122,28 @@ void Playlist::reproducirTodo(){
 }
 void Playlist::repUnNumCancion(int numEnLista){
 	Cancion *c=nullptr;
+	Cola <Cancion*>  *cAux = new Cola <Cancion*>;;
 	int i=1;
+
 	while (!colaReproduccion->estaVacia()){
 		c=colaReproduccion->getPrimero();
-		while(i<=numCanciones){
-			if(i==numEnLista){
-				c->mostrar();
-			}
-			i++;
+		cAux->encolar(c);
+		colaReproduccion->desencolar();
+		if (i==numEnLista){
+			c->mostrar();
 		}
-			colaReproduccion->desencolar();
-			colaReproduccion ->encolar(c);
-		}
+		i++;
+	}
+
+	while (!cAux->estaVacia()){
+		c=cAux->getPrimero();
+		colaReproduccion->encolar(c);
+		cAux->desencolar();
+	}
+
+	delete cAux;
+	delete c;
+
 }
 
 Playlist::~Playlist (){
